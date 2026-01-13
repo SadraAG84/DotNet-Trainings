@@ -15,5 +15,4 @@ namespace basics.Models
 
         public string? Desciption { get; set; }
     }
-
 }

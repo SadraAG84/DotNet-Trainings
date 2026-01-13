@@ -3,10 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace basics.Controllers;
 
+// /course
 public class CourseController : Controller
 {
-    // /course
-
     // /course or /course/index
     public IActionResult Index()
     {
