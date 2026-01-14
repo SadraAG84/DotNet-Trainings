@@ -1,14 +1,19 @@
 @model Course
-    <div class="card mb-3" id="@Model.ID">
-        <div class="row">
-            <div class="col md-4">
-                <img src="~/img/@Model.Image" alt="" width="350">
-            </div>
-            <div class="col md-8">
-                <div class="card-body">
+<div class="card mb-3" id="@Model.ID">
+    <div class="row">
+        <div class="col md-4">
+            <img src="~/img/@Model.Image" alt="" width="350">
+        </div>
+        <div class="col md-8">
+            <div class="card-body">
+                <a href="/course">
                     <h5 class="card-title">@Model.Title</h5>
-                    <p class="card-text">@Model.Desciption</p>
-                </div>
+                </a>
+                <a asp-controller="Course" asp-action="Details" asp-route-id="@Model.ID">
+                    <p class="card-text">@Model.Description</p>
+                </a>
+
             </div>
         </div>
     </div>
+</div>

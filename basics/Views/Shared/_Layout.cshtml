@@ -14,6 +14,7 @@
 <body>
     <header>
         @await Html.PartialAsync("_Navbar")
+        @RenderSection("Header", required: false)
     </header>
     <div class="container mt-3">
         <main>
