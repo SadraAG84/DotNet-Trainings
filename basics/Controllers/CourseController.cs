@@ -16,12 +16,16 @@ public class CourseController : Controller
         return View(course);
     }
 
-    public IActionResult Details()
+    public IActionResult Details(int? id)
     {
-        var course = new Course();
-        course.ID = 1;
-        course.Title = "Aspnet course";
-        course.Image = "1.jpg";
+        if (id == null)
+        {
+            return Redirect("/course/list");
+            // return RedirectToAction("List", "Course");
+        }
+
+
+        var course = Repository.GetCourseById(id);
         return View(course);
     }
 

@@ -41,5 +41,10 @@ namespace basics.Models
         {
             get { return _courses; }
         }
+
+        public static Course? GetCourseById(int? id)
+        {
+            return _courses.FirstOrDefault(c => c.ID == id);
+        }
     }
 }
