@@ -24,7 +24,6 @@ public class CourseController : Controller
             // return RedirectToAction("List", "Course");
         }
 
-
         var course = Repository.GetCourseById(id);
         return View(course);
     }

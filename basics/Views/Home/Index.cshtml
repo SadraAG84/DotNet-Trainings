@@ -1,3 +1,28 @@
-﻿<h1>Home Page(cshml)</h1>
+﻿@model List<Course>
 
-@await Html.PartialAsync("_Header")
+<h1>Home Page(cshtml)</h1>
+@section Header {
+    @await Html.PartialAsync("_Header")
+}
+
+
+<div class="row">
+    @foreach (var course in Model)
+    {
+
+        if(course.isActive && course.isHome){
+
+        <div class="col-3">
+            <div class="card">
+                <img src="~/img/@course.Image" class="card-img-top" alt="@course.Title" width="300" height="300">
+                <div class="card-body">
+                    <h5 class="card-body">@course.Title</h5>
+                    <p class="card-text">@course.Description</p>
+                    <a class="btn btn-primary" asp-controller="Course" asp-action="Details"
+                        asp-route-id="@course.ID">Details</a>
+                </div>
+            </div>
+        </div>
+        }
+    }
+</div>

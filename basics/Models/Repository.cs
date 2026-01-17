@@ -19,6 +19,9 @@ namespace basics.Models
                     Title = "Course 1",
                     Description = "Description 1",
                     Image = "1.jpg",
+                    Tags = new string[] { "aspnetcore", "web" }.Aggregate((a, b) => a + "," + b),
+                    isActive = true,
+                    isHome = true,
                 },
                 new Course
                 {
@@ -26,6 +29,9 @@ namespace basics.Models
                     Title = "Course 2",
                     Description = "Description 2",
                     Image = "2.jpg",
+                    Tags = new string[] { "aspnetcore2", "web2" }.Aggregate((a, b) => a + "," + b),
+                    isActive = false,
+                    isHome = true,
                 },
                 new Course
                 {
@@ -33,6 +39,9 @@ namespace basics.Models
                     Title = "Course 3",
                     Description = "Description 3",
                     Image = "3.jpg",
+                    Tags = new string[] { "aspnetcore3", "web3" }.Aggregate((a, b) => a + "," + b),
+                    isActive = true,
+                    isHome = false,
                 },
             };
         }
