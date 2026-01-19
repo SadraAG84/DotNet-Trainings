@@ -6,6 +6,6 @@ var app = builder.Build();
 // {controller=Home}/{action=Index}/{id?}
 // app.MapDefaultControllerRoute();
 
-app.MapControllerRoute(name: "default", pattern: "{controller=Meeting}/{action=Index}/{id?}");
+app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

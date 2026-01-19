@@ -6,9 +6,19 @@ namespace MeetingApp.Controllers
     {
         // localhost/Meeting
         // localhost/Meeting/Index
-        public String Index()
+        public IActionResult Index()
         {
-            return "This is Meeting/Index";
+            return View();
+        }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        public IActionResult List()
+        {
+            return View();
         }
     }
 }

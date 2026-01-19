@@ -7,9 +7,9 @@ namespace MeetingApp.Controllers
         // localhost
         // localhost/Home
         // localhost/Home/Index
-        public string Index()
+        public IActionResult Index()
         {
-            return "This is Home/Index";
+            return View();
         }
     }
 }
