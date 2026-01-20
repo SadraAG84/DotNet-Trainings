@@ -1,3 +1,4 @@
+using MeetingApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MeetingApp.Controllers
@@ -16,7 +17,16 @@ namespace MeetingApp.Controllers
             ViewBag.Greeting = hour < 12 ? "Good Morning" : "Good Afternoon";
             ViewBag.User = "Sadra";
 
-            return View();
+            var meetingInfo = new MeetingInfo()
+            {
+                Id = 1,
+                Title = "Project Meeting",
+                Location = "Room 101",
+                Date = new DateTime(2026, 01, 20, 10, 0, 0),
+                NumberOfPeople = 25,
+            };
+
+            return View(meetingInfo);
         }
     }
 }
