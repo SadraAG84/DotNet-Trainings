@@ -1,3 +1,4 @@
+using MeetingApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MeetingApp.Controllers
@@ -20,12 +21,12 @@ namespace MeetingApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(string Name, string Email, string Phone, bool WillAttend)
+        public IActionResult Register(UserInfo userInfo)
         {
-            Console.WriteLine($"Name: {Name}");
-            Console.WriteLine($"Email: {Email}");
-            Console.WriteLine($"Phone: {Phone}");
-            Console.WriteLine($"Will Attend: {WillAttend}");
+            Console.WriteLine($"Name: {userInfo.Name}");
+            Console.WriteLine($"Email: {userInfo.Email}");
+            Console.WriteLine($"Phone: {userInfo.Phone}");
+            Console.WriteLine($"Will Attend: {userInfo.WillAttend}");
             return View();
         }
 
