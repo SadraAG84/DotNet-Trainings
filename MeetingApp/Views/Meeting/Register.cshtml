@@ -3,7 +3,7 @@
 }
 
 <h1 class="h4 text-center">Register Form</h1>
-<form action="">
+<form method="post" action="/Meeting/Register">
     <div class="mb-3">
         <label for="Name" class="form-label">Name</label>
         <input type="text" name="Name" class="form-control" id="Name">
@@ -13,14 +13,14 @@
         <input type="email" name="Email" class="form-control" id="email">
     </div>
     <div class="mb-3">
-        <label for="Phone Number" class="form-label">Phone Number</label>
-        <input type="tel" name="PhoneNumber" class="form-control" id="Phone Number">
+        <label for="Phone" class="form-label">Phone Number</label>
+        <input type="tel" name="Phone" class="form-control" id="Phone">
     </div>
     <div class="mb-3">
-        <label for="status" class="form-label">Participation Status</label>
-        <select class="form-select" name="Status" id="status">
-            <option value="Attending">Attending</option>
-            <option value="Not Attending">Not Attending</option>
+        <label for="WillAttend" class="form-label">Participation Status</label>
+        <select name="WillAttend" id="WillAttend" class="form-select">
+            <option value="true">Attending</option>
+            <option value="false">Not Attending</option>
         </select>
     </div>
     <button class="btn btn-primary" type="submit">Register</button>
