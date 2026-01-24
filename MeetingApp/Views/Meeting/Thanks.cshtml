@@ -1,0 +1,26 @@
+@model UserInfo
+@{
+    ViewBag.Title = "Registration Status";
+}
+
+<main class="text-center">
+
+    <h1 class="h4">Registration Status</h1>
+
+    @if (Model.WillAttend)
+    {
+        <p>Thank you, @Model.Name, for registering. We look forward to seeing you at the meeting!</p>
+        <p>There is @ViewBag.UserCount more attendees including you.</p>
+        <a class="btn btn-sm btn-outline-primary" href="#">List the attendees</a>
+    }
+    else
+    {
+        <p>Thank you, @Model.Name, for letting us know. We're sorry you can't make it to the meeting.</p>
+        <a class="btn btn-sm btn-outline-primary" href="/meeting/register">Register Form</a>
+    }
+
+
+
+
+
+</main>

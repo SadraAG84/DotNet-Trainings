@@ -8,11 +8,12 @@ namespace MeetingApp.Controllers
         // localhost/Meeting
         // localhost/Meeting/Index
 
-        [HttpGet]
-        public IActionResult Index()
-        {
-            return View();
-        }
+        // we replaced Index.cs with Thanks.cs so we do not need this action anymore
+        // [HttpGet]
+        // public IActionResult Index()
+        // {
+        //     return View();
+        // }
 
         [HttpGet]
         public IActionResult Register()
@@ -21,13 +22,19 @@ namespace MeetingApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(UserInfo userInfo)
+        public IActionResult Register(UserInfo model)
         {
-            Console.WriteLine($"Name: {userInfo.Name}");
-            Console.WriteLine($"Email: {userInfo.Email}");
-            Console.WriteLine($"Phone: {userInfo.Phone}");
-            Console.WriteLine($"Will Attend: {userInfo.WillAttend}");
-            return View();
+            // Console.WriteLine($"Name: {model.Name}");
+            // Console.WriteLine($"Email: {model.Email}");
+            // Console.WriteLine($"Phone: {model.Phone}");
+            // Console.WriteLine($"Will Attend: {model.WillAttend}");
+
+            // data can be saved to database here
+            // we will list all registered users in the List view
+
+            Repository.CreateUser(model);
+            ViewBag.UserCount = Repository.Users.Where(info => info.WillAttend).Count();
+            return View("Thanks", model);
         }
 
         [HttpGet]
