@@ -16,7 +16,7 @@ namespace MeetingApp.Controllers
 
             ViewBag.Greeting = hour < 12 ? "Good Morning" : "Good Afternoon";
             // ViewBag.User = "Sadra";
-            int userCount = Repository.Users.Where(info => info.WillAttend).Count();
+            int userCount = Repository.Users.Where(info => info.WillAttend == true).Count();
 
             var meetingInfo = new MeetingInfo()
             {
@@ -24,7 +24,7 @@ namespace MeetingApp.Controllers
                 Title = "Project Meeting",
                 Location = "Room 101",
                 Date = new DateTime(2026, 01, 20, 10, 0, 0),
-                NumberOfPeople = userCount,
+                NumberOfPeople = "Number of people attending: " + userCount.ToString(),
             };
 
             return View(meetingInfo);

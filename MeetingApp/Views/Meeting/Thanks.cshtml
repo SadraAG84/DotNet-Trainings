@@ -7,7 +7,7 @@
 
     <h1 class="h4">Registration Status</h1>
 
-    @if (Model.WillAttend)
+    @if (Model.WillAttend == true)
     {
         <p>Thank you, @Model.Name, for registering. We look forward to seeing you at the meeting!</p>
         <p>There is @ViewBag.UserCount more attendees including you.</p>

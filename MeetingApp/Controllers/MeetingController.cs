@@ -31,10 +31,16 @@ namespace MeetingApp.Controllers
 
             // data can be saved to database here
             // we will list all registered users in the List view
-
-            Repository.CreateUser(model);
-            ViewBag.UserCount = Repository.Users.Where(info => info.WillAttend).Count();
-            return View("Thanks", model);
+            if (ModelState.IsValid)
+            {
+                Repository.CreateUser(model);
+                ViewBag.UserCount = Repository.Users.Where(info => info.WillAttend == true).Count();
+                return View("Thanks", model);
+            }
+            else
+            {
+                return View(model);
+            }
         }
 
         [HttpGet]

@@ -21,15 +21,15 @@
             @foreach (var user in Model)
             {
 
-                var className = user.WillAttend ? "table-success" : "table-danger";
+                var className = user.WillAttend == true ? "table-success" : "table-danger";
 
-                if (user.WillAttend)
+                if (user.WillAttend == true)
                 {
                     i++;
                 }
                 <tr class="@className">
                     <td>@user.Name</td>
-                    <td>@(user.WillAttend ? "Attending" : "Not Attending")</td>
+                    <td>@(user.WillAttend == true ? "Attending" : "Not Attending")</td>
                     <td><a class="btn btn-sm btn-primary" href="/meeting/details/@user.Id">View Details</a></td>
                 </tr>
             }

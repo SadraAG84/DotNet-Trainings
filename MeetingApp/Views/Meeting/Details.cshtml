@@ -4,14 +4,14 @@
 }
 
 @{
-    var className = Model.WillAttend ? "primary" : "danger";
+    var className = Model.WillAttend == true ? "primary" : "danger";
 }
 
 <main class="text-center">
     <h4>Registration Status</h4>
     <p>
         <span class="badge text-bg-@className">
-            @if (Model.WillAttend)
+            @if (Model.WillAttend == true)
             {
                 <text>Will Attend</text>
             }
