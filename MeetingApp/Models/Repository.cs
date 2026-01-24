@@ -10,6 +10,7 @@ namespace MeetingApp.Models
             _userInfos.Add(
                 new UserInfo
                 {
+                    Id = 1,
                     Name = "Alice Johnson",
                     Email = "alice@example.com",
                     Phone = "123-456-7890",
@@ -19,6 +20,7 @@ namespace MeetingApp.Models
             _userInfos.Add(
                 new UserInfo
                 {
+                    Id = 2,
                     Name = "Sadra Alizadeh",
                     Email = "sadra@example.com",
                     Phone = "111-222-3333",
@@ -28,6 +30,7 @@ namespace MeetingApp.Models
             _userInfos.Add(
                 new UserInfo
                 {
+                    Id = 3,
                     Name = "Bob Smith",
                     Email = "bob@example.com",
                     Phone = "555-666-7777",
@@ -41,9 +44,15 @@ namespace MeetingApp.Models
             get { return _userInfos; }
         }
 
-        public static void CreateUser(UserInfo userInfo)
+        public static void CreateUser(UserInfo user)
         {
-            _userInfos.Add(userInfo);
+            user.Id = _userInfos.Count + 1;
+            _userInfos.Add(user);
+        }
+
+        public static UserInfo? GetUserById(int id)
+        {
+            return _userInfos.FirstOrDefault(user => user.Id == id);
         }
     }
 }

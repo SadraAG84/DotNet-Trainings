@@ -42,5 +42,17 @@ namespace MeetingApp.Controllers
         {
             return View(Repository.Users);
         }
+
+        // localhost/Meeting/Details/Id
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var user = Repository.GetUserById(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View(user);
+        }
     }
 }
