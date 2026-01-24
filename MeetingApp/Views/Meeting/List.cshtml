@@ -1,3 +1,4 @@
+@model List<UserInfo>
 @{
     ViewBag.Title = "List of Attendees";
 }
@@ -14,16 +15,30 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>John Doe</td>
-                <td>Attending</td>
-                <td><a class="btn btn-sm btn-primary" href="#">View Details</a></td>
-            </tr>
-            <tr>
-                <td>Jane Smith</td>
-                <td>Attending</td>
-                <td><a class="btn btn-sm btn-primary" href="#">View Details</a></td>
-            </tr>
+
+            @{int i = 0;}
+
+            @foreach (var user in Model)
+            {
+
+                var className = user.WillAttend ? "table-success" : "table-danger";
+
+                if (user.WillAttend)
+                {
+                    i++;
+                }
+                <tr class="@className">
+                    <td>@user.Name</td>
+                    <td>@(user.WillAttend ? "Attending" : "Not Attending")</td>
+                    <td><a class="btn btn-sm btn-primary" href="#">View Details</a></td>
+                </tr>
+            }
+
         </tbody>
     </table>
+    <div class="card">
+        <div class="card-body">
+            <span>There are @i attendees registered for the meeting.</span>
+        </div>
+    </div>
 </main>
