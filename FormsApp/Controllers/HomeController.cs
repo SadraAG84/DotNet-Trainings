@@ -49,8 +49,8 @@ public class HomeController : Controller
     {
         var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
         var extension = Path.GetExtension(imageFile.FileName);
-        var ramdomFileName = string.Format($"{Guid.NewGuid().ToString()}{extension}");
-        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", ramdomFileName);
+        var randomFileName = string.Format($"{Guid.NewGuid().ToString()}{extension}");
+        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", randomFileName);
 
         if (imageFile != null && !allowedExtensions.Contains(extension.ToLower()))
         {
@@ -66,7 +66,7 @@ public class HomeController : Controller
                     await imageFile.CopyToAsync(stream);
                 }
             }
-            model.Image = ramdomFileName;
+            model.Image = randomFileName;
             model.ProductId = Repository.Products.Max(p => p.ProductId) + 1;
             Repository.CreateProduct(model);
             return RedirectToAction("Index");
@@ -89,4 +89,68 @@ public class HomeController : Controller
         ViewBag.Categories = new SelectList(Repository.Categories, "CategoryId", "Name");
         return View(entity);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(int id, Product model, IFormFile? imageFile)
+    {
+        if (id != model.ProductId)
+        {
+            return NotFound();
+        }
+
+        if (ModelState.IsValid)
+        {
+            if (imageFile != null)
+            {
+                var extension = Path.GetExtension(imageFile.FileName);
+                var randomFileName = string.Format($"{Guid.NewGuid().ToString()}{extension}");
+                var path = Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    "wwwroot/img",
+                    randomFileName
+                );
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+                model.Image = randomFileName;
+            }
+            Repository.EditProduct(model);
+            return RedirectToAction("Index");
+        }
+        ViewBag.Categories = new SelectList(Repository.Categories, "CategoryId", "Name");
+        return View(model);
+    }
 }
+
+// var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+// string ramdomFileName = model.Image;
+// if (imageFile != null)
+// {
+//     var extension = Path.GetExtension(imageFile.FileName);
+//     ramdomFileName = string.Format($"{Guid.NewGuid().ToString()}{extension}");
+//     var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", ramdomFileName);
+
+//     if (!allowedExtensions.Contains(extension.ToLower()))
+//     {
+//         ModelState.AddModelError("ImageFile", "Only .jpg, .jpeg, .png files are allowed.");
+//     }
+
+//     if (ModelState.IsValid)
+//     {
+//         using (var stream = new FileStream(path, FileMode.Create))
+//         {
+//             await imageFile.CopyToAsync(stream);
+//         }
+//     }
+// }
+
+// if (ModelState.IsValid)
+// {
+//     model.Image = ramdomFileName;
+//     Repository.EditProduct(model);
+//     return RedirectToAction("Index");
+// }
+// ViewBag.Categories = new SelectList(Repository.Categories, "CategoryId", "Name");
+// return View(model);
