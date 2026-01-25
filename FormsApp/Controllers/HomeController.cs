@@ -43,8 +43,11 @@ public class HomeController : Controller
     }
 
     [HttpPost]
+
+    // public IActionResult Create([Bind("Name,Price,Image")] Product model) --> Using Bind attribute to prevent overposting attack and just get the information we want
     public IActionResult Create(Product model)
     {
-        return View();
+        Repository.CreateProduct (model);
+        return RedirectToAction("Index");
     }
 }

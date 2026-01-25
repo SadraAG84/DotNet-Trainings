@@ -20,7 +20,7 @@
     <div class="mb-3">
         <label asp-for="CategoryId" class="form-labl"></label>
         <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control">
-            <option value="0">Select a Category</option>
+            <option value="0">All</option>
             @* @foreach (var item in ViewBag.Categories)
             {
                 <option value="@item.CategoryId">@item.Name</option>
