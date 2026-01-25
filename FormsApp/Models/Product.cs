@@ -14,7 +14,7 @@ namespace FormsApp.Models
         [Required(ErrorMessage = "Product name is required")]
         [StringLength(100, ErrorMessage = "Product name cannot be longer than 100 characters")]
         [Display(Name = "Product Name")]
-        public string? Name { get; set; }
+        public string Name { get; set; } = null!;
 
         [Required(ErrorMessage = "Price is required")]
         [Range(0, 100000, ErrorMessage = "Price must be between 0 and 100000")]

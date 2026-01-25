@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Threading.Tasks;
 using FormsApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -44,10 +45,25 @@ public class HomeController : Controller
 
     [HttpPost]
     // public IActionResult Create([Bind("Name,Price,Image")] Product model) --> Using Bind attribute to prevent overposting attack and just get the information we want
-    public IActionResult Create(Product model)
+    public async Task<IActionResult> Create(Product model, IFormFile imageFile)
     {
+        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+        var extension = Path.GetExtension(imageFile.FileName);
+        var ramdomFileName = string.Format($"{Guid.NewGuid().ToString()}{extension}");
+        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", ramdomFileName);
+
+        if (imageFile != null && !allowedExtensions.Contains(extension.ToLower()))
+        {
+            ModelState.AddModelError("ImageFile", "Only .jpg, .jpeg, .png files are allowed.");
+        }
+
         if (ModelState.IsValid)
         {
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(stream);
+            }
+            model.Image = ramdomFileName;
             model.ProductId = Repository.Products.Max(p => p.ProductId) + 1;
             Repository.CreateProduct(model);
             return RedirectToAction("Index");
