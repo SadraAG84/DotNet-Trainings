@@ -1,34 +1,36 @@
-﻿@{
+﻿@* Models/Product.cs *@
+@model Product
+@{
     ViewData["Title"] = "Create";
 }
 
 <form asp-controller="Home" asp-action="Create" method="post">
     <div class="mb-3">
-        <label for="Name" class="form-labl">Name</label>
-        <input type="text" name="Name" id="Name" class="form-control" />
+        <label asp-for="Name" class="form-labl">Name</label>
+        <input asp-for="Name" class="form-control" />
     </div>
     <div class="mb-3">
-        <label for="Price" class="form-labl">Price</label>
-        <input type="text" name="Price" id="Price" class="form-control" />
+        <label asp-for="Price" class="form-labl">Price</label>
+        <input asp-for="Price" class="form-control" />
     </div>
     <div class="mb-3">
-        <label for="Image" class="form-labl">Image</label>
-        <input type="text" name="Image" id="Image" class="form-control" />
+        <label asp-for="Image" class="form-labl">Image</label>
+        <input asp-for="Image" class="form-control" />
     </div>
     <div class="mb-3">
-        <label for="CategoryId" class="form-labl">Category</label>
-        <select name="CategoryId" id="CategoryId" class="form-control">
+        <label asp-for="CategoryId" class="form-labl"></label>
+        <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control">
             <option value="0">Select a Category</option>
-            @foreach (var item in ViewBag.Categories)
+            @* @foreach (var item in ViewBag.Categories)
             {
                 <option value="@item.CategoryId">@item.Name</option>
-            }
+            } *@
 
         </select>
     </div>
     <div class="mb-3">
-        <input type="checkbox" class="form-check-input" name="IsActive" id="IsActive">
-        <label for="IsActive" class="form-check-label">Is Active</label>
+        <input asp-for="IsActive" class="form-check-input" >
+        <label asp-for="IsActive" class="form-check-label"></label>
     </div>
         <button type="submit" class="btn btn-primary">Save</button>
 </form>
