@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Create";
+}
+
+<form asp-controller="Home" asp-action="Create" method="post">
+    <div class="mb-3">
+        <label for="Name" class="form-labl">Name</label>
+        <input type="text" name="Name" id="Name" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label for="Price" class="form-labl">Price</label>
+        <input type="text" name="Price" id="Price" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label for="Image" class="form-labl">Image</label>
+        <input type="text" name="Image" id="Image" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label for="CategoryId" class="form-labl">Category</label>
+        <select name="CategoryId" id="CategoryId" class="form-control">
+            <option value="0">Select a Category</option>
+            @foreach (var item in ViewBag.Categories)
+            {
+                <option value="@item.CategoryId">@item.Name</option>
+            }
+
+        </select>
+    </div>
+    <div class="mb-3">
+        <input type="checkbox" class="form-check-input" name="IsActive" id="IsActive">
+        <label for="IsActive" class="form-check-label">Is Active</label>
+    </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+</form>
