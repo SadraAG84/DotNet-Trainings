@@ -5,17 +5,21 @@
 }
 
 <form asp-controller="Home" asp-action="Create" method="post">
+    <div asp-validation-summary="All"></div>
     <div class="mb-3">
-        <label asp-for="Name" class="form-labl">Name</label>
+        <label asp-for="Name" class="form-labl"></label>
         <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="Price" class="form-labl">Price</label>
+        <label asp-for="Price" class="form-labl"></label>
         <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price"></span>
     </div>
     <div class="mb-3">
         <label asp-for="Image" class="form-labl">Image</label>
         <input asp-for="Image" class="form-control" />
+        <span asp-validation-for="Image"></span>
     </div>
     <div class="mb-3">
         <label asp-for="CategoryId" class="form-labl"></label>
@@ -29,8 +33,8 @@
         </select>
     </div>
     <div class="mb-3">
-        <input asp-for="IsActive" class="form-check-input" >
+        <input asp-for="IsActive" class="form-check-input">
         <label asp-for="IsActive" class="form-check-label"></label>
     </div>
-        <button type="submit" class="btn btn-primary">Save</button>
+    <button type="submit" class="btn btn-primary">Save</button>
 </form>

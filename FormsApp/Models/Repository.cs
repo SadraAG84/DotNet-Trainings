@@ -88,6 +88,7 @@ namespace FormsApp.Models
         {
             _products.Add(entity);
         }
+
         public static List<Category> Categories
         {
             get { return _categories; }
