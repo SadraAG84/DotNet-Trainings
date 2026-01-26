@@ -20,29 +20,42 @@
     </form>
 </div>
 
-<table class= "table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th style = "width: 100px;">Product ID</th>
-            <th style="width: 100px">Image</th>
-            <th>Name</th>
-            <th style = "width: 100px;">Price</th>
-            <th style="width: 130px;"></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var product in @Model.Products)
-        {
+<form asp-controller="Home" asp-action="EditProducts" method="post">
+
+    <table class= "table table-bordered table-striped">
+        <thead>
             <tr>
-                <td>@product.ProductId</td>
-                <td><img src="~/img/@product.Image" class="img-fluid" alt="@product.Name"></td>
-                <td>@product.Name</td>
-                <td>@product.Price</td>
+                <th style = "width: 100px;">Product ID</th>
+                <th style="width: 100px">Image</th>
+                <th>Name</th>
+                <th style = "width: 100px;">Price</th>
                 <td>
-                    <a href="/Home/Edit/@product.ProductId" class="btn btn-sm btn-primary">Edit</a>
-                    <a href="/Home/Delete/@product.ProductId" class="btn btn-sm btn-danger">Delete</a>
+
                 </td>
+                <th style="width: 130px;"></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @for (var i = 0; i < Model.Products.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Model.Products[i].ProductId
+                        <input type="hidden" asp-for="@Model.Products[i].ProductId" />
+                    </td>
+                    <td><img src="~/img/@Model.Products[i].Image" class="img-fluid" alt="@Model.Products[i].Name"></td>
+                    <td>@Model.Products[i].Name</td>
+                    <td>@Model.Products[i].Price</td>
+                    <td>
+                        <input type="checkbox" asp-for="@Model.Products[i].IsActive" />
+                    </td>
+                    <td>
+                        <a href="/Home/Edit/@Model.Products[i].ProductId" class="btn btn-sm btn-primary">Edit</a>
+                        <a href="/Home/Delete/@Model.Products[i].ProductId" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

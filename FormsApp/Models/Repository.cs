@@ -29,7 +29,7 @@ namespace FormsApp.Models
                     Name = "IPhone 13",
                     Price = 30000,
                     Image = "2.jpg",
-                    IsActive = true,
+                    IsActive = false,
                     CategoryId = 1,
                 }
             );
@@ -62,7 +62,7 @@ namespace FormsApp.Models
                     Name = "MacBook Pro 1",
                     Price = 50000,
                     Image = "m1.jpg",
-                    IsActive = true,
+                    IsActive = false,
                     CategoryId = 2,
                 }
             );
@@ -99,6 +99,15 @@ namespace FormsApp.Models
                 entity.Image = updatedProduct.Image;
                 entity.IsActive = updatedProduct.IsActive;
                 entity.CategoryId = updatedProduct.CategoryId;
+            }
+        }
+
+        public static void EditisActive(Product updatedProduct)
+        {
+            var entity = _products.FirstOrDefault(p => p.ProductId == updatedProduct.ProductId);
+            if (entity != null)
+            {
+                entity.IsActive = updatedProduct.IsActive;
             }
         }
 

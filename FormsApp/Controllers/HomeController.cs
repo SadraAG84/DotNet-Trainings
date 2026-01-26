@@ -127,6 +127,16 @@ public class HomeController : Controller
     }
 
     [HttpPost]
+    public IActionResult EditProducts(List<Product> Products)
+    {
+        foreach (var product in Products)
+        {
+            Repository.EditisActive(product);
+        }
+        return RedirectToAction("Index");
+    }
+
+    [HttpPost]
     public async Task<IActionResult> Edit(int id, Product model, IFormFile? imageFile)
     {
         if (id != model.ProductId)
