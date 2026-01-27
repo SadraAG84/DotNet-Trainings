@@ -1,8 +1,9 @@
 @model efcoreApp.Data.Student
 
-<h2>Add Student</h2>
+<h2>Edit Student</h2>
 <hr>
-<form asp-controller="Student" asp-action="Create" method="post">
+<form asp-controller="Student" asp-action="Edit" method="post">
+    <input type="hidden" asp-for="StudentId" />
     <div class="mb-3">
         <label asp-for="StudentFirstName" class="form-label">Student First Name</label>
         <input asp-for="StudentFirstName" class="form-control" />
