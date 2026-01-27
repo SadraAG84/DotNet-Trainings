@@ -34,13 +34,13 @@ namespace efcoreApp.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
-            var student = await _context.Students.FindAsync(id);
-            // var student = await _context.Students.FirstOrDefaultAsync(s => s.StudentId == id);
-            if (student == null)
+            var course = await _context.Courses.FindAsync(id);
+            // var course = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == id);
+            if (course == null)
             {
                 return NotFound();
             }
-            return View(student);
+            return View(course);
         }
 
         [HttpPost]

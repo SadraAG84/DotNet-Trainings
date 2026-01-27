@@ -4,7 +4,6 @@ namespace efcoreApp.Data
 {
     public class Student
     {
-
         [Key]
         [Display(Name = "Student ID")]
         public int StudentId { get; set; }
