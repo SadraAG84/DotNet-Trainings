@@ -43,5 +43,62 @@ namespace efcoreApp.Controllers
             }
             return View(student);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Student model)
+        {
+            if (id != model.StudentId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Students.Update(model);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_context.Students.Any(s => s.StudentId == model.StudentId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            var student = await _context.Students.FindAsync(id);
+            // var student = await _context.Students.FirstOrDefaultAsync(s => s.StudentId == id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+            return View(student);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete([FromForm] int id)
+        {
+            var student = await _context.Students.FindAsync(id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            _context.Students.Remove(student);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
     }
 }

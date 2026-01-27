@@ -1,0 +1,10 @@
+@model efcoreApp.Data.Student
+
+<p>
+    Do you want to delete <b>@Model.StudentFirstName @Model.StudentLastName</b>?
+    <form asp-action="Delete">
+        <input type="hidden" name="id" value="@Model.StudentId" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-action="Index" class="btn btn-primary">Cancel</a>
+    </form>
+</p>
