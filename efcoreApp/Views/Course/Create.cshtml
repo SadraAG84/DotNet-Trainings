@@ -1,0 +1,12 @@
+@model efcoreApp.Data.Course
+
+<h2>Add Course</h2>
+<hr>
+<form asp-controller="Course" asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="CourseName" class="form-label">Course Name</label>
+        <input asp-for="CourseName" class="form-control" />
+        <span asp-validation-for="CourseName" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-secondary">Save</button>
+</form>
