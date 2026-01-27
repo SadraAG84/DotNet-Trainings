@@ -13,6 +13,11 @@ namespace efcoreApp.Data
 
         [Display(Name = "Student Last Name")]
         public string? StudentLastName { get; set; }
+
+        public string? NameLastname
+        {
+            get { return this.StudentFirstName + " " + this.StudentLastName; }
+        }
         public string? Email { get; set; }
 
         public string? Phone { get; set; }
