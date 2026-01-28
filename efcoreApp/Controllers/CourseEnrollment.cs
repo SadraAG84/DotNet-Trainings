@@ -16,8 +16,11 @@ namespace efcoreApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var courses = await _context.Courses.ToListAsync();
-            return View(courses);
+            var courseEnrollments = await _context
+                .CourseEnrollments.Include(x => x.Student)
+                .Include(x => x.Course)
+                .ToListAsync();
+            return View(courseEnrollments);
         }
 
         public async Task<IActionResult> Create()
@@ -41,6 +44,21 @@ namespace efcoreApp.Controllers
         {
             model.EnrollmentDate = DateTime.Now;
             _context.CourseEnrollments.Add(model);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var courseEnrollment = await _context.CourseEnrollments.FindAsync(id);
+            if (courseEnrollment == null)
+                return NotFound();
+
+            _context.CourseEnrollments.Remove(courseEnrollment);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");

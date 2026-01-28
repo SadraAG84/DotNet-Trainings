@@ -21,5 +21,8 @@ namespace efcoreApp.Data
         public string? Email { get; set; }
 
         public string? Phone { get; set; }
+
+        public ICollection<CourseEnrollment> CourseEnrollments { get; set; } =
+            new List<CourseEnrollment>();
     }
 }

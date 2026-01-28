@@ -2,29 +2,42 @@
 
 <h2>Edit Student</h2>
 <hr>
-<form asp-controller="Student" asp-action="Edit" method="post">
-    <input type="hidden" asp-for="StudentId" />
-    <div class="mb-3">
-        <label asp-for="StudentFirstName" class="form-label">Student First Name</label>
-        <input asp-for="StudentFirstName" class="form-control" />
-        <span asp-validation-for="StudentFirstName" class="text-danger"></span>
-    </div>
+<div class="row">
+    <div class="col-8">
+        <form asp-controller="Student" asp-action="Edit" method="post">
+            <input type="hidden" asp-for="StudentId" />
+            <div class="mb-3">
+                <label asp-for="StudentFirstName" class="form-label">Student First Name</label>
+                <input asp-for="StudentFirstName" class="form-control" />
+                <span asp-validation-for="StudentFirstName" class="text-danger"></span>
+            </div>
 
-        <div class="mb-3">
-        <label asp-for="StudentLastName" class="form-label">Student Last Name</label>
-        <input asp-for="StudentLastName" class="form-control" />
-        <span asp-validation-for="StudentLastName" class="text-danger"></span>
-    </div>
+            <div class="mb-3">
+                <label asp-for="StudentLastName" class="form-label">Student Last Name</label>
+                <input asp-for="StudentLastName" class="form-control" />
+                <span asp-validation-for="StudentLastName" class="text-danger"></span>
+            </div>
 
-    <div class="mb-3">
-        <label asp-for="Email" class="form-label">Email</label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">Email</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Phone" class="form-label">Phone</label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-secondary">Save</button>
+        </form>
     </div>
-        <div class="mb-3">
-        <label asp-for="Phone" class="form-label">Phone</label>
-        <input asp-for="Phone" class="form-control" />
-        <span asp-validation-for="Phone" class="text-danger"></span>
+    <div class="col-4">
+        <h4>Courses</h4>
+        <hr>
+        <ul>
+            @foreach(var item in @Model.CourseEnrollments){
+                <li>@item.Course.CourseName</li>
+            }
+        </ul>
     </div>
-    <button type="submit" class="btn btn-secondary">Save</button>
-</form>
+</div>

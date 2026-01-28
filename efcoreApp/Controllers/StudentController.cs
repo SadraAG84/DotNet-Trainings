@@ -35,7 +35,10 @@ namespace efcoreApp.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
-            var student = await _context.Students.FindAsync(id);
+            var student = await _context
+                .Students.Include(s => s.CourseEnrollments)
+                    .ThenInclude(s => s.Course)
+                .FirstOrDefaultAsync(s => s.StudentId == id);
             // var student = await _context.Students.FirstOrDefaultAsync(s => s.StudentId == id);
             if (student == null)
             {
