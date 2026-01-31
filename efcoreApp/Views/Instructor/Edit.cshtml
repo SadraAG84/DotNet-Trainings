@@ -1,0 +1,42 @@
+@model efcoreApp.Data.Instructor
+
+<h2>Edit Instructor</h2>
+<hr>
+<div class="row">
+    <div class="col-8">
+        <form asp-controller="Instructor" asp-action="Edit" method="post">
+            <input type="hidden" asp-for="InstructorId" />
+            <div class="mb-3">
+                <label asp-for="InstructorFirstName" class="form-label">Instructor First Name</label>
+                <input asp-for="InstructorFirstName" class="form-control" />
+                <span asp-validation-for="InstructorFirstName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="InstructorLastName" class="form-label">Instructor Last Name</label>
+                <input asp-for="InstructorLastName" class="form-control" />
+                <span asp-validation-for="InstructorLastName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">Email</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Phone" class="form-label">Phone</label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="StartingDate" class="form-label">StartingDate</label>
+                <input asp-for="StartingDate" class="form-control" />
+                <span asp-validation-for="StartingDate" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-secondary">Save</button>
+        </form>
+    </div>
+    <div class="col-4">
+        
+    </div>
+</div>
