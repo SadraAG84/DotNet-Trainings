@@ -1,8 +1,9 @@
-@model efcoreApp.Data.Course
+@model efcoreApp.Models.CourseViewModel
 
 <h2>Add Course</h2>
 <hr>
 <form asp-controller="Course" asp-action="Create" method="post">
+    <div asp-validation-summary="All"></div>
     <div class="mb-3">
         <label asp-for="CourseName" class="form-label">Course Name</label>
         <input asp-for="CourseName" class="form-control" />
@@ -11,7 +12,7 @@
     <div class="mb-3">
         <label asp-for="InstructorId">Instructor</label>
         <select asp-for="InstructorId" asp-items="ViewBag.Instructors" class="form-select">
-            <option value="">select</option>
+        <option value="">select</option>
         </select>
     </div>
     <button type="submit" class="btn btn-secondary">Save</button>

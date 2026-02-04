@@ -29,13 +29,51 @@ namespace efcoreApp.Controllers
                 "InstructorId",
                 "NameLastname"
             );
+            ViewBag.Instructors = new SelectList(
+                await _context.Instructors.ToListAsync(),
+                "InstructorId",
+                "NameLastname"
+            );
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Course model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CourseViewModel model)
         {
-            _context.Courses.Add(model);
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Instructors = new SelectList(
+                    await _context.Instructors.ToListAsync(),
+                    "InstructorId",
+                    "NameLastname"
+                );
+                return View(model);
+            }
+
+            // Check if InstructorId exists
+            var instructorExists = await _context.Instructors.AnyAsync(i =>
+                i.InstructorId == model.InstructorId
+            );
+            if (!instructorExists)
+            {
+                ModelState.AddModelError("InstructorId", "Selected instructor does not exist.");
+                ViewBag.Instructors = new SelectList(
+                    await _context.Instructors.ToListAsync(),
+                    "InstructorId",
+                    "NameLastname"
+                );
+                return View(model);
+            }
+
+            _context.Courses.Add(
+                new Course()
+                {
+                    CourseId = model.CourseId,
+                    CourseName = model.CourseName,
+                    InstructorId = (int)model.InstructorId!,
+                }
+            );
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
@@ -84,7 +122,7 @@ namespace efcoreApp.Controllers
                         {
                             CourseId = model.CourseId,
                             CourseName = model.CourseName,
-                            InstructorId = model.InstructorId,
+                            InstructorId = (int)model.InstructorId!,
                         }
                     );
                     await _context.SaveChangesAsync();

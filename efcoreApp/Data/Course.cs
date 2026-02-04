@@ -7,7 +7,7 @@ namespace efcoreApp.Data
         public int CourseId { get; set; }
         public string? CourseName { get; set; }
 
-        public int? InstructorId { get; set; }
+        public int InstructorId { get; set; }
 
         public Instructor Instructor { get; set; } = null!;
 
