@@ -8,6 +8,10 @@ namespace efcoreApp.Data
         public int InstructorId { get; set; }
         public string? InstructorFirstName { get; set; }
         public string? InstructorLastName { get; set; }
+        public string? NameLastname
+        {
+            get { return this.InstructorFirstName + " " + this.InstructorLastName; }
+        }
         public string? Email { get; set; }
 
         public string? Phone { get; set; }

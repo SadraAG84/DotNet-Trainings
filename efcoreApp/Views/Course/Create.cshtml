@@ -8,5 +8,11 @@
         <input asp-for="CourseName" class="form-control" />
         <span asp-validation-for="CourseName" class="text-danger"></span>
     </div>
+    <div class="mb-3">
+        <label asp-for="InstructorId">Instructor</label>
+        <select asp-for="InstructorId" asp-items="ViewBag.Instructors" class="form-select">
+            <option value="">select</option>
+        </select>
+    </div>
     <button type="submit" class="btn btn-secondary">Save</button>
 </form>

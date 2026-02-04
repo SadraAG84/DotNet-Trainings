@@ -1,7 +1,10 @@
 namespace efcoreApp.Controllers
 {
+    using System.Threading.Tasks;
     using efcoreApp.Data;
+    using efcoreApp.Models;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
 
     public class CourseController : Controller
@@ -15,12 +18,17 @@ namespace efcoreApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var courses = await _context.Courses.ToListAsync();
+            var courses = await _context.Courses.Include(k => k.Instructor).ToListAsync();
             return View(courses);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.Instructors = new SelectList(
+                await _context.Instructors.ToListAsync(),
+                "InstructorId",
+                "NameLastname"
+            );
             return View();
         }
 
@@ -37,18 +45,30 @@ namespace efcoreApp.Controllers
             var course = await _context
                 .Courses.Include(c => c.CourseEnrollments)
                     .ThenInclude(c => c.Student)
+                .Select(c => new CourseViewModel
+                {
+                    CourseId = c.CourseId,
+                    CourseName = c.CourseName,
+                    InstructorId = c.InstructorId,
+                    CourseEnrollments = c.CourseEnrollments,
+                })
                 .FirstOrDefaultAsync(c => c.CourseId == id);
             // var course = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == id);
             if (course == null)
             {
                 return NotFound();
             }
+            ViewBag.Instructors = new SelectList(
+                await _context.Instructors.ToListAsync(),
+                "InstructorId",
+                "NameLastname"
+            );
             return View(course);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Course model)
+        public async Task<IActionResult> Edit(int id, CourseViewModel model)
         {
             if (id != model.CourseId)
             {
@@ -59,10 +79,17 @@ namespace efcoreApp.Controllers
             {
                 try
                 {
-                    _context.Courses.Update(model);
+                    _context.Update(
+                        new Course()
+                        {
+                            CourseId = model.CourseId,
+                            CourseName = model.CourseName,
+                            InstructorId = model.InstructorId,
+                        }
+                    );
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException)
                 {
                     if (!_context.Courses.Any(c => c.CourseId == model.CourseId))
                     {
