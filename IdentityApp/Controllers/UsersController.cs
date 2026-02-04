@@ -1,22 +1,26 @@
+using System.Threading.Tasks;
 using IdentityApp.Models;
 using IdentityApp.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace IdentityApp.Controllers
 {
     public class UsersController : Controller
     {
         private UserManager<AppUser> _userManager;
+        private readonly RoleManager<AppRole> _roleManager;
 
-        public UsersController(UserManager<AppUser> userManager)
+        public UsersController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_userManager.Users);
+            return View(await _userManager.Users.ToListAsync());
         }
 
         public IActionResult Create()
@@ -57,21 +61,23 @@ namespace IdentityApp.Controllers
             return View(model);
         }
 
-        public IActionResult Edit(string id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var user = _userManager.FindByIdAsync(id).Result;
+            var user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
+                ViewBag.Roles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
                 var model = new EditViewModel
                 {
                     Id = user.Id,
                     UserName = user.UserName,
                     FullName = user.FullName ?? string.Empty,
                     Email = user.Email,
+                    SelectedRoles = await _userManager.GetRolesAsync(user),
                 };
                 return View(model);
             }
@@ -101,6 +107,16 @@ namespace IdentityApp.Controllers
                     IdentityResult result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
                     {
+                        // Update user roles
+                        // First, remove all existing roles then add the selected roles from the model
+                        await _userManager.RemoveFromRolesAsync(
+                            user,
+                            await _userManager.GetRolesAsync(user)
+                        );
+                        if (model.SelectedRoles != null)
+                        {
+                            await _userManager.AddToRolesAsync(user, model.SelectedRoles);
+                        }
                         // If a new password is provided, update the user's password
                         // This requires generating a password reset token since we don't have the old password
                         if (!string.IsNullOrEmpty(model.Password))

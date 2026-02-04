@@ -18,5 +18,8 @@ namespace IdentityApp.ViewModels
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string? ConfirmPassword { get; set; }
+
+        // List of roles selected for the user  
+        public IList<string>? SelectedRoles { get; set; }
     }
 }
