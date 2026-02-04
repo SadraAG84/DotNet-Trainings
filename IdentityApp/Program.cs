@@ -8,9 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<IdentityContext>(options =>
-    options.UseSqlite(builder.Configuration["ConnectionStrings:SQLite_Connection"]));
+    options.UseSqlite(builder.Configuration["ConnectionStrings:SQLite_Connection"])
+);
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder
+    .Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<IdentityContext>();
 
 var app = builder.Build();
@@ -30,8 +32,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+IdentitySeedData.IdentityTestUser(app);
 
 app.Run();
