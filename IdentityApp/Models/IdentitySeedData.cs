@@ -22,12 +22,17 @@ namespace IdentityApp.Models
 
             var userManager = app
                 .ApplicationServices.CreateScope()
-                .ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                .ServiceProvider.GetRequiredService<UserManager<AppUser>>();
 
             var user = await userManager.FindByNameAsync(adminUser);
             if (user == null)
             {
-                user = new IdentityUser { UserName = adminUser, Email = "admin@example.com" };
+                user = new AppUser
+                {
+                    UserName = adminUser,
+                    FullName = "Admin User",
+                    Email = "admin@example.com",
+                };
 
                 await userManager.CreateAsync(user, adminPassword);
             }

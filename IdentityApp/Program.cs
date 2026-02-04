@@ -10,10 +10,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<IdentityContext>(options =>
     options.UseSqlite(builder.Configuration["ConnectionStrings:SQLite_Connection"])
 );
-
-builder
-    .Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<IdentityContext>();
+// Add Identity services
+// Here we specify our custom user and role classes
+builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<IdentityContext>();
 
 // Configure identity options
 // Here we set password requirements and user settings
