@@ -40,15 +40,15 @@ namespace IdentityApp.Controllers
                     await _signInManager.SignOutAsync();
 
                     // Check if email is confirmed
-                    if (!await _userManager.IsEmailConfirmedAsync(user))
-                    {
-                        // Email not confirmed
-                        ModelState.AddModelError(
-                            string.Empty,
-                            "Email not confirmed. Please confirm your email before logging in."
-                        );
-                        return View(model);
-                    }
+                    // if (!await _userManager.IsEmailConfirmedAsync(user))
+                    // {
+                    //     // Email not confirmed
+                    //     ModelState.AddModelError(
+                    //         string.Empty,
+                    //         "Email not confirmed. Please confirm your email before logging in."
+                    //     );
+                    //     return View(model);
+                    // }
 
                     // Attempt to sign in
                     var result = await _signInManager.PasswordSignInAsync(
@@ -135,31 +135,31 @@ namespace IdentityApp.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> ConfirmEmail(string userId, string token)
-        {
-            if (userId == null || token == null)
-            {
-                TempData["Message"] = "Invalid token";
-                return View();
-            }
+        // public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        // {
+        //     if (userId == null || token == null)
+        //     {
+        //         TempData["Message"] = "Invalid token";
+        //         return View();
+        //     }
 
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID '{userId}'.");
-            }
+        //     var user = await _userManager.FindByIdAsync(userId);
+        //     if (user == null)
+        //     {
+        //         return NotFound($"Unable to load user with ID '{userId}'.");
+        //     }
 
-            var result = await _userManager.ConfirmEmailAsync(user, token);
-            if (result.Succeeded)
-            {
-                TempData["Message"] = "Email confirmed successfully";
-                return RedirectToAction("Login", "Account");
-            }
-            else
-            {
-                TempData["Message"] = "Error confirming your email.";
-                return View();
-            }
-        }
+        //     var result = await _userManager.ConfirmEmailAsync(user, token);
+        //     if (result.Succeeded)
+        //     {
+        //         TempData["Message"] = "Email confirmed successfully";
+        //         return RedirectToAction("Login", "Account");
+        //     }
+        //     else
+        //     {
+        //         TempData["Message"] = "Error confirming your email.";
+        //         return View();
+        //     }
+        // }
     }
 }
