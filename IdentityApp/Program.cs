@@ -10,9 +10,14 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<IdentityContext>(options =>
     options.UseSqlite(builder.Configuration["ConnectionStrings:SQLite_Connection"])
 );
+
 // Add Identity services
 // Here we specify our custom user and role classes
-builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<IdentityContext>();
+// and configure Identity to use Entity Framework Core with our IdentityContext
+builder
+    .Services.AddIdentity<AppUser, AppRole>()
+    .AddEntityFrameworkStores<IdentityContext>()
+    .AddDefaultTokenProviders();
 
 // Configure identity options
 // Here we set password requirements and user settings
@@ -30,6 +35,9 @@ builder.Services.Configure<IdentityOptions>(options =>
 
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
     options.Lockout.MaxFailedAccessAttempts = 5;
+
+    // Require confirmed email for sign-in
+    options.SignIn.RequireConfirmedEmail = true;
 });
 
 builder.Services.ConfigureApplicationCookie(options =>

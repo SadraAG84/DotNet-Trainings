@@ -32,6 +32,7 @@ namespace IdentityApp.Models
                     UserName = adminUser,
                     FullName = "Admin User",
                     Email = "admin@example.com",
+                    EmailConfirmed = true,
                 };
 
                 await userManager.CreateAsync(user, adminPassword);
