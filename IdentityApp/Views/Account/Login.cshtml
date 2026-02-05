@@ -2,7 +2,7 @@
 
 <h2>Login</h2>
 <hr>
-<form asp-action="Create" method="post">
+<form asp-action="Login" method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="mb-3">
         <label asp-for="Email"></label>
@@ -19,6 +19,5 @@
         <label asp-for="RememberMe" class="form-check-label"></label>
         <span asp-validation-for="RememberMe" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Create</button>
-    <a asp-controller="Roles" asp-action="Index" class="btn btn-secondary">Back to List</a>
+    <button type="submit" class="btn btn-primary">Login</button>
 </form>
