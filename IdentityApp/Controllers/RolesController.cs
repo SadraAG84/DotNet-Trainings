@@ -85,7 +85,7 @@ namespace IdentityApp.Controllers
                 }
 
                 // Role not found
-                if (role.Name != null)
+                if (role != null && role.Name != null)
                 {
                     ViewBag.Users = await _userManager.GetUsersInRoleAsync(role.Name);
                 }
