@@ -1,5 +1,7 @@
 using IdentityApp.Models;
 using IdentityApp.ViewModels;
+using IdentityApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,12 +21,14 @@ namespace IdentityApp.Controllers
             _signInManager = signInManager;
         }
 
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(IdentityApp.ViewModels.LoginViewModel model)
         {
             // Check if the model state is valid
@@ -90,12 +94,14 @@ namespace IdentityApp.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Create(CreateViewModel model)
         {
             if (ModelState.IsValid)
@@ -166,6 +172,89 @@ namespace IdentityApp.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login", "Account");
+        }
+
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            if (ModelState.IsValid)
+            {
+                // Find the user by email
+                var user = await _userManager.FindByEmailAsync(email);
+
+                // If the user exists and email is confirmed( && await _userManager.IsEmailConfirmedAsync(user)) ("we are not checking confirmation yet"), generate a password reset token
+                if (user != null)
+                {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    var resetLink = Url.Action(
+                        "ResetPassword",
+                        "Account",
+                        new { token = token, email = user.Email },
+                        Request.Scheme
+                    );
+
+                    // Here, you would typically send the resetLink via email to the user.
+                    // For demonstration purposes, we'll just display it on the screen.
+                    ViewBag.ResetLink = resetLink;
+                    return View("ForgotPasswordConfirmation");
+                }
+                // To prevent account enumeration, we display the same confirmation message
+                return View("ForgotPasswordConfirmation");
+            }
+            return View();
+        }
+
+        [AllowAnonymous]
+        public IActionResult ResetPassword(string token, string Id)
+        {
+            if (token == null || Id == null)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid password reset token.");
+            }
+            var model = new ResetPasswordModel { Token = token, Email = Id };
+            return View(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user != null)
+                {
+                    var result = await _userManager.ResetPasswordAsync(
+                        user,
+                        model.Token,
+                        model.Password
+                    );
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Login", "Account");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
+                else
+                {
+                    // To prevent account enumeration, we display the same confirmation message
+                    return RedirectToAction("Login", "Account");
+                }
+            }
+            return View(model);
         }
     }
 }
