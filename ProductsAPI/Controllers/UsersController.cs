@@ -1,5 +1,9 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using ProductsAPI.Models;
 
 namespace ProductsAPI.Controllers
@@ -11,13 +15,17 @@ namespace ProductsAPI.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
 
+        private readonly IConfiguration _configuration;
+
         public UsersController(
             UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager
+            SignInManager<AppUser> signInManager,
+            IConfiguration configuration
         )
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _configuration = configuration;
         }
 
         [HttpPost("register")]
@@ -88,7 +96,38 @@ namespace ProductsAPI.Controllers
             }
 
             // Here you would typically generate a JWT token and return it to the client
-            return Ok(new { Message = "Login successful" });
+            return Ok(new { token = GenerateJwt(user) });
+        }
+
+        // This method generates a JSON Web Token (JWT) for the authenticated user
+        private object GenerateJwt(AppUser user)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler(); // Create an instance of JwtSecurityTokenHandler to handle the creation and manipulation of JWT tokens
+
+            var key = Encoding.ASCII.GetBytes(
+                _configuration.GetSection("Appsettings:Secret").Value ?? string.Empty
+            ); // Retrieve the secret key from the configuration (appsettings.json) and convert it to a byte array using ASCII encoding. This key will be used to sign the JWT token, ensuring its integrity and authenticity. The secret key should be a long, random string to provide sufficient security for the token.
+
+            var tokenDescriptor = new SecurityTokenDescriptor // Create a SecurityTokenDescriptor that describes the contents and properties of the JWT token to be generated
+            {
+                Subject = new ClaimsIdentity(
+                    new Claim[]
+                    {
+                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), // Add a claim for the user's unique identifier (Id) using the ClaimTypes.NameIdentifier claim type. This allows the token to carry information about the user's identity, which can be used for authorization and authentication purposes.
+                        new Claim(ClaimTypes.Name, user.UserName ?? string.Empty), // Add a claim for the user's username using the ClaimTypes.Name claim type. This provides additional information about the user in the token, which can be useful for display purposes or for making authorization decisions based on the user's name.
+                    }
+                ),
+
+                Expires = DateTime.UtcNow.AddDays(1),
+
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256Signature
+                ), // Set the signing credentials for the token using a symmetric security key created from the secret key and specifying the HMAC SHA256 algorithm for signing. This ensures that the token is securely signed and can be verified by the server when it is received in subsequent requests.
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor); // Use the JwtSecurityTokenHandler to create a JWT token based on the provided token descriptor. The CreateToken method generates a token that includes the claims, expiration time, and signing credentials specified in the token descriptor.
+
+            return tokenHandler.WriteToken(token);
         }
     }
 }
