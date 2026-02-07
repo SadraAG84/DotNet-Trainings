@@ -21,12 +21,13 @@ namespace ProductsAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
-            var products = await _context.Products.ToListAsync();
+            var products = await _context.Products.Select(p => ProductDTO(p)).ToListAsync();
+
             if (products == null || !products.Any())
             {
                 return NotFound();
             }
-            return Ok(products ?? new List<Product>());
+            return Ok(products ?? new List<ProductDTO>());
         }
 
         [HttpGet("{id}")]
@@ -43,7 +44,8 @@ namespace ProductsAPI.Controllers
                 return NotFound();
             }
 
-            return Ok(product);
+            var productDTO = ProductDTO(product);
+            return Ok(productDTO);
         }
 
         [HttpPost]
@@ -57,7 +59,8 @@ namespace ProductsAPI.Controllers
             _context.Products.Add(entity);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetProduct), new { id = entity.ProductId }, entity);
+            var productDTO = ProductDTO(entity);
+            return CreatedAtAction(nameof(GetProduct), new { id = entity.ProductId }, productDTO);
         }
 
         [HttpPut("{id}")]
@@ -77,7 +80,6 @@ namespace ProductsAPI.Controllers
             // Update the existing product's properties with the new values from the request body
             existingProduct.ProductName = entity.ProductName;
             existingProduct.Price = entity.Price;
-            existingProduct.IsActive = entity.IsActive;
 
             // Mark the existing product as modified and save changes
             try
@@ -141,6 +143,16 @@ namespace ProductsAPI.Controllers
                 }
             }
             return NoContent();
+        }
+
+        private static ProductDTO ProductDTO(Product product)
+        {
+            return new ProductDTO
+            {
+                ProductId = product.ProductId,
+                ProductName = product.ProductName,
+                Price = product.Price,
+            };
         }
     }
 }
