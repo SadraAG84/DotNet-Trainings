@@ -2,14 +2,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ProductsAPI.Models
 {
-    public class UserDTO
+    public class LoginDTO
     {
         [Required]
-        public string FullName { get; set; } = null!;
-
-        [Required]
-        public string UserName { get; set; } = null!;
+        [EmailAddress]
         public string Email { get; set; } = null!;
+        [Required]
+        [DataType(DataType.Password)]
         public string Password { get; set; } = null!;
     }
 }
