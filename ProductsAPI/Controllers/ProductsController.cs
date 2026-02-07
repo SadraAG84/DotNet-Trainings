@@ -48,21 +48,30 @@ namespace ProductsAPI.Controllers
 
         // This action will handle GET requests to /api/products
         [HttpGet]
-        public List<Product> GetProducts()
+        public IActionResult GetProducts()
         {
-            // In a real application, you would retrieve this data from a database
-            return _products ?? new List<Product>();
+            if (_products == null || !_products.Any())
+            {
+                return NotFound();
+            }
+            return Ok(_products ?? new List<Product>());
         }
 
         [HttpGet("{id}")]
-        public Product? GetProduct(int id)
+        public IActionResult GetProduct(int? id)
         {
-            // In a real application, you would retrieve this data from a database
-            if (id < 1 || id > (_products?.Count ?? 0))
+            if (id == null)
             {
-                return null;
+                return NotFound();
             }
-            return _products?.FirstOrDefault(p => p.ProductId == id);
+
+            var product = _products?.FirstOrDefault(p => p.ProductId == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(product);
         }
     }
 }
