@@ -45,5 +45,19 @@ namespace ProductsAPI.Controllers
 
             return Ok(product);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateProduct([FromBody] Product entity)
+        {
+            if (entity == null)
+            {
+                return BadRequest();
+            }
+
+            _context.Products.Add(entity);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetProduct), new { id = entity.ProductId }, entity);
+        }
     }
 }
