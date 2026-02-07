@@ -111,5 +111,36 @@ namespace ProductsAPI.Controllers
         {
             return _context.Products.Any(e => e.ProductId == id);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            _context.Products.Remove(product);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                // Check if the product still exists in the database
+                if (ProductExists(id))
+                {
+                    throw;
+                }
+                // If the product doesn't exist, it means it was already deleted by another user, so we return NotFound
+                else
+                {
+                    return NotFound();
+                }
+            }
+            return NoContent();
+        }
     }
 }
