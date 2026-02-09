@@ -26,7 +26,19 @@
     </div>
 }
 
-@for(int i = 1; i <= Model.PageInfo.TotalPages; i++)
-{
-    <a href="@Url.Action("Index", new { page = i })" class="btn btn-primary">@i</a>
-}
+<div page-model="@Model.PageInfo" page-action="Index">
+    @if (Model.PageInfo.TotalPages > 1)
+    {
+        <nav aria-label="Page navigation">
+            <ul class="pagination" style="list-style: none; display: flex; flex-wrap: wrap; gap: 5px;">
+                @for (int i = Math.Max(1, Model.PageInfo.CurrentPage - 2); i <= Math.Min(Model.PageInfo.TotalPages,
+                            Model.PageInfo.CurrentPage + 2); i++)
+                {
+                    <li class="page-item @(i == Model.PageInfo.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+</div>
