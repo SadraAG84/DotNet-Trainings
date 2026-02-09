@@ -3,6 +3,11 @@
 
 <h5>Index page</h5>
 
+@if (!Model.Products.Any())
+{
+    <p>No products available.</p>
+}
+
 @foreach (var product in Model.Products)
 {
     <div class="card mb-3" style="max-width: 540px;">
