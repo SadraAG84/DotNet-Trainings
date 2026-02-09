@@ -8,7 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<StoreDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("StoreDbConnection"))
+    options.UseSqlite(
+        builder.Configuration.GetConnectionString("StoreDbConnection"),
+        b => b.MigrationsAssembly("StoreApp.Web")
+    )
 );
 
 builder.Services.AddScoped<IStoreRepository, EFStoreRepository>();
