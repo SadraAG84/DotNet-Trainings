@@ -1,1 +1,22 @@
+@using StoreApp.Web.Models
+@model ProductListViewModel
+
 <h5>Index page</h5>
+
+@foreach (var product in Model.Products)
+{
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+            @* <div class="col-md-4">
+                <img src="@product.ImageUrl" class="img-fluid rounded-start" alt="@product.Name">
+            </div> *@
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">@product.Name</h5>
+                    <p class="card-text">@product.Description</p>
+                    <p class="card-text"><small class="text-muted">Price: @product.Price</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+}

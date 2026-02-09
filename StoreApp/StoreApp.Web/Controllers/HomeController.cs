@@ -2,6 +2,7 @@ namespace StoreApp.Web.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
 using StoreApp.Data.Abstract;
+using StoreApp.Web.Models;
 
 public class HomeController : Controller
 {
@@ -15,7 +16,16 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        var products = _storeRepository.Products.ToList();
-        return View(products);
+        var products = _storeRepository
+            .Products.Select(p => new ProductViewModel
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                Category = p.Category,
+            })
+            .ToList();
+        return View(new ProductListViewModel { Products = products });
     }
 }

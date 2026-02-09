@@ -13,9 +13,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.2" />
   </ItemGroup>
 
-
-<!-- added by dotnet add reference ../StoreApp.Data/StoreApp.Data.cs
-proj -->
+  <!-- added by typing "dotnet add reference ../StoreApp.Data/StoreApp.Data.csproj" using the CLI -->
   <ItemGroup>
     <ProjectReference Include="..\StoreApp.Data\StoreApp.Data.csproj" />
   </ItemGroup>
