@@ -25,3 +25,8 @@
         </div>
     </div>
 }
+
+@for(int i = 1; i <= Model.PageInfo.TotalPages; i++)
+{
+    <a href="@Url.Action("Index", new { page = i })" class="btn btn-primary">@i</a>
+}
