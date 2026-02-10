@@ -8,5 +8,4 @@ public class Product
     public decimal Price { get; set; }
 
     public List<Category> Categories { get; set; } = new List<Category>();
-
 }

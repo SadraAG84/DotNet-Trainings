@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StoreApp.Data.Abstract;
+using StoreApp.Data.Concrete;
+using StoreApp.Web.Models;
 
 namespace StoreApp.Web.Components;
 
@@ -15,11 +17,13 @@ public class CategoriesListViewComponent : ViewComponent
     public IViewComponentResult Invoke()
     {
         // Get all unique category names from all products
-        var categoryNames = _storeRepository.Products
-            .SelectMany(p => p.Categories)
-            .Select(c => c.Name)
-            .Distinct()
-            .OrderBy(name => name)
+        var categoryNames = _storeRepository
+            .Categories.Select(c => new CategoryViewModel
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Url = c.Url,
+            })
             .ToList();
         return View(categoryNames);
     }

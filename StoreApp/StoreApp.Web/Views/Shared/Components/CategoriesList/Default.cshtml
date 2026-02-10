@@ -1,8 +1,8 @@
-@model IEnumerable<string>
+@model IEnumerable<StoreApp.Web.Models.CategoryViewModel>
 
 <div class="d-grid gap-2">
     @foreach (var category in Model)
     {
-        <a asp-action="Index" asp-controller="Home"  class="btn btn-outline-secondary">@category</a>
+        <a asp-action="Index" asp-controller="Home" asp-route-category="@category.Url" class="btn btn-outline-secondary">@category.Name</a>
     }
 </div>
