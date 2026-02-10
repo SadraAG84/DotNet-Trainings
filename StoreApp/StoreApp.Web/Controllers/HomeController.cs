@@ -28,20 +28,24 @@ public class HomeController : Controller
                 Name = p.Name,
                 Description = p.Description,
                 Price = p.Price,
-                Category = p.Category,
+                // Show all category names as comma-separated
+                Category =
+                    p.Categories != null && p.Categories.Any()
+                        ? string.Join(", ", p.Categories.Select(c => c.Name))
+                        : string.Empty,
             })
             .ToList();
-        return View(
-            new ProductListViewModel
+
+        var model = new ProductListViewModel
+        {
+            Products = products,
+            PageInfo = new PageInfo
             {
-                Products = products,
-                PageInfo = new PageInfo
-                {
-                    CurrentPage = page,
-                    ItemsPerPage = pageSize,
-                    TotalItems = _storeRepository.Products.Count(),
-                },
-            }
-        );
+                CurrentPage = page,
+                ItemsPerPage = pageSize,
+                TotalItems = _storeRepository.Products.Count(),
+            },
+        };
+        return View(model);
     }
 }

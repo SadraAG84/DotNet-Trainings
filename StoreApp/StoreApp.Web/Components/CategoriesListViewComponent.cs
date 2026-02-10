@@ -14,11 +14,13 @@ public class CategoriesListViewComponent : ViewComponent
 
     public IViewComponentResult Invoke()
     {
-        var categories = _storeRepository
-            .Products.Select(p => p.Category)
+        // Get all unique category names from all products
+        var categoryNames = _storeRepository.Products
+            .SelectMany(p => p.Categories)
+            .Select(c => c.Name)
             .Distinct()
-            .OrderBy(c => c)
+            .OrderBy(name => name)
             .ToList();
-        return View(categories);
+        return View(categoryNames);
     }
 }
