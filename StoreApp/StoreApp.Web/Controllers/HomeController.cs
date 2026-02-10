@@ -37,6 +37,7 @@ public class HomeController : Controller
                 Products = products,
                 PageInfo = new PageInfo
                 {
+                    CurrentPage = page,
                     ItemsPerPage = pageSize,
                     TotalItems = _storeRepository.Products.Count(),
                 },
