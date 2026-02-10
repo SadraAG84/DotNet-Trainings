@@ -1,0 +1,8 @@
+@model IEnumerable<string>
+
+<div class="d-grid gap-2">
+    @foreach (var category in Model)
+    {
+        <a asp-action="Index" asp-controller="Home"  class="btn btn-outline-secondary">@category</a>
+    }
+</div>
