@@ -19,5 +19,22 @@ builder.Services.AddScoped<IStoreRepository, EFStoreRepository>();
 var app = builder.Build();
 
 app.UseStaticFiles();
+
+// Custom route for products in a category
+// localhost:5000/products/electronics
+app.MapControllerRoute(
+    name: "product_in_category",
+    pattern: "products/{category}",
+    new { controller = "Home", action = "Index" }
+);
+
+// Custom route for product details using product name
+// loclalhost:5000/laptop-1
+app.MapControllerRoute(
+    name: "product_details",
+    pattern: "{name}",
+    new { controller = "Home", action = "Details" }
+);
+
 app.MapDefaultControllerRoute();
 app.Run();

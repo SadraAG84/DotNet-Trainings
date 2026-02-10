@@ -1,8 +1,12 @@
 @model IEnumerable<StoreApp.Web.Models.CategoryViewModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 
 <div class="d-grid gap-2">
+    <a asp-controller="Home" asp-action="Index" asp-route-category="" class="btn btn-outline-secondary @(string.IsNullOrEmpty(ViewBag.SelectedCategory as string) ? "btn-outline-secondary" : "btn-outline-secondary")">Main Menu</a>
     @foreach (var category in Model)
     {
-        <a asp-action="Index" asp-controller="Home" asp-route-category="@category.Url" class="btn btn-outline-secondary">@category.Name</a>
+        <a asp-controller="Home" asp-action="Index" asp-route-category="@category.Url" 
+        class="btn btn-outline-secondary @(ViewBag.SelectedCategory == category.Url ? "btn-primary" : "btn-outline-secondary")">@category.Name</a>
     }
 </div>
