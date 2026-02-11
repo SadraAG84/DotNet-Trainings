@@ -2,11 +2,14 @@ using Microsoft.EntityFrameworkCore;
 using StoreApp.Data.Abstract;
 using StoreApp.Data.Concrete;
 using StoreApp.Web.Data;
+using StoreApp.Web.Models;
 using StoreApp.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAutoMapper(typeof(MapperProfil).Assembly);
 
 // Register ProductMapper for dependency injection
 builder.Services.AddScoped<IProductMapper, ProductMapper>();

@@ -1,5 +1,6 @@
 namespace StoreApp.Web.Controllers;
 
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StoreApp.Data.Abstract;
@@ -13,11 +14,17 @@ public class HomeController : Controller
 
     // Dependency injection of the repository(we use it because we want to get the products from the database and show them in the view)(if we don't use it, we have to create an instance of the repository in the controller and that is not good because it will make the controller tightly coupled with the repository and that is not good for testing and maintenance)
     private readonly IStoreRepository _storeRepository;
+    private readonly IMapper _mapper;
 
-    public HomeController(IStoreRepository storeRepository, IProductMapper productMapper)
+    public HomeController(
+        IStoreRepository storeRepository,
+        IProductMapper productMapper,
+        IMapper mapper
+    )
     {
         _storeRepository = storeRepository;
         _productMapper = productMapper;
+        _mapper = mapper;
     }
 
     // localhost:5000/home/index?page=1
