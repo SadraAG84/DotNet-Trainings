@@ -1,5 +1,6 @@
 namespace StoreApp.Data.Concrete;
 
+using System.Collections.Generic;
 using StoreApp.Data.Abstract;
 using StoreApp.Web.Data;
 
@@ -19,5 +20,25 @@ public class EFStoreRepository : IStoreRepository
     {
         _context.Products.Add(product);
         _context.SaveChanges();
+    }
+
+    public int GetProductCount(string category)
+    {
+        return _context
+            .Products.Where(p =>
+                string.IsNullOrEmpty(category) || p.Categories.Any(c => c.Url == category)
+            )
+            .Count();
+    }
+
+    public IEnumerable<Product> GetProductsByCategory(string category, int page, int pageSize)
+    {
+        return _context
+            .Products.Where(p =>
+                string.IsNullOrEmpty(category) || p.Categories.Any(c => c.Url == category)
+            )
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
     }
 }

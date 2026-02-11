@@ -2,10 +2,14 @@ using Microsoft.EntityFrameworkCore;
 using StoreApp.Data.Abstract;
 using StoreApp.Data.Concrete;
 using StoreApp.Web.Data;
+using StoreApp.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+
+// Register ProductMapper for dependency injection
+builder.Services.AddScoped<IProductMapper, ProductMapper>();
 
 builder.Services.AddDbContext<StoreDbContext>(options =>
     options.UseSqlite(
